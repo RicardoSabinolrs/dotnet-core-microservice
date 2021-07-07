@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: application-config
+  namespace: sabino-labs
+#common configuration shared between all applications
+data:
+  application.yml: |-
+    configserver:
+      name: Consul
+      status: Connected to Consul running in Kubernetes
+    jhipster:
+      security:
+        authentication:
+          jwt:
+            base64-secret: OGY4NWYzMjEwYzcyM2NjZDUyZjM2MDEzYzU0YjljMDU0NjczMDkzZTNkZDczYWVmMzg4ODhlNGVjYmEyODU0ZGYzN2U2YmZjZjhmYjA4NThiOTBkOGUyZDBiY2NmYjBkYWFiNA==
+  # app specific configuration

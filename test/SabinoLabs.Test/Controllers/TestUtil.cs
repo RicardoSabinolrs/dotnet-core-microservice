@@ -1,0 +1,47 @@
+using System;
+using System.Linq;
+using System.Net.Http;
+using System.Text;
+using FluentAssertions;
+using Newtonsoft.Json;
+
+namespace SabinoLabs.Test.Controllers
+{
+    public static class TestUtil
+    {
+        private static readonly Random random = new();
+
+        public static HttpContent ToJsonContent(object model) => ToJsonContent(model, Encoding.UTF8);
+
+        public static HttpContent ToJsonContent(object model, Encoding encoding) =>
+            new StringContent(JsonConvert.SerializeObject(model), encoding, "application/json");
+
+        public static string RandomAlphabetic(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        public static void EqualsVerifier(Type type)
+        {
+            object? domainObject1 = Activator.CreateInstance(type);
+            domainObject1.ToString().Should().NotBeNullOrEmpty();
+            domainObject1.Should().Be(domainObject1);
+            domainObject1.GetHashCode().Should().Be(domainObject1.GetHashCode());
+            // Test with an instance another class
+            object testOtherObject = new object();
+            domainObject1.Should().NotBe(testOtherObject);
+            domainObject1.Should().NotBeNull();
+            // Test with an instance of the same class
+            object? domainObject2 = Activator.CreateInstance(type);
+            domainObject1.Should().NotBe(domainObject2);
+        }
+
+        public static void BuildHttpContextWithMockUser(string username)
+        {
+            //            var mock = new Mock<HttpContext>();
+            //            mock.Setup(httpContext => httpContext.User).Returns(null);
+        }
+    }
+}
