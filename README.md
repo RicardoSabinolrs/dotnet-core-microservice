@@ -1,6 +1,6 @@
 # SabinoLabs
 
-### QuickStart
+This repository is intended to be part of a reference architecture for microservices with Spring Boot and kotlin.
 
 ## Development
 
